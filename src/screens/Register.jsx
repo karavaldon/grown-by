@@ -58,7 +58,7 @@ async function playCrumpleSound() {
   } catch (_) {}
 }
 
-const FARMER_PHOTO = 'https://www.figma.com/api/mcp/asset/253b5036-806c-4efd-b140-0ce5bfbe97e0';
+const FARMER_PHOTO = '/farmer-photo.jpg';
 
 function ProductNote({ product }) {
   return (
@@ -109,7 +109,7 @@ function ProductTile({ product, badge, onAdd }) {
     >
       <div className="w-full rounded-[10px] overflow-hidden flex-shrink-0" style={{ height: 76 }}>
         {product.img ? (
-          <img src={product.img} alt={product.name} className="w-full h-full object-cover" />
+          <img src={product.img} alt={product.name} className="w-full h-full object-cover" style={product.imgPosition ? { objectPosition: product.imgPosition } : undefined} />
         ) : (
           <div className="w-full h-full flex items-center justify-center" style={{ background: product.bg }}>
             {product.emoji && (
