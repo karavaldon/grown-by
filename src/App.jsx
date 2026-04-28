@@ -11,11 +11,45 @@ import CashModal from './modals/CashModal';
 import FarmCreditModal from './modals/FarmCreditModal';
 import EBTModal from './modals/EBTModal';
 
+function DemoModal({ onClose }) {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center" style={{ zIndex: 50 }}>
+      <div className="absolute inset-0 bg-black/30" onClick={onClose} />
+      <div
+        className="relative z-10 bg-white rounded-[20px] flex flex-col items-center gap-5 px-12 py-10"
+        style={{ width: 480, boxShadow: '0 8px 40px rgba(0,0,0,0.18)' }}
+        onClick={e => e.stopPropagation()}
+      >
+        <p className="text-[40px]">👩‍🌾</p>
+        <div className="flex flex-col items-center gap-3 text-center">
+          <p className="text-[#231F20] text-[20px] font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            Thanks for trying this out!
+          </p>
+          <p className="text-[#606060] text-[16px] leading-[26px]" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            Feel free to keep adding items to your basket.
+          </p>
+          <p className="text-[#606060] text-[16px] font-semibold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            🔊 Sound on!
+          </p>
+        </div>
+        <button
+          onClick={onClose}
+          className="mt-2 h-[52px] px-10 rounded-[10px] text-white text-[16px] font-bold bg-[#6DBE4B] hover:bg-[#5aaa3d] transition-colors cursor-pointer"
+          style={{ fontFamily: 'Montserrat, sans-serif' }}
+        >
+          Got it
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
-  const [screen, setScreen] = useState('screensaver'); // screensaver | register | checkout | receipt
+  const [screen, setScreen] = useState('register'); // screensaver | register | checkout | receipt
   const [cart, setCart] = useState([]);
   const [paymentModal, setPaymentModal] = useState(null); // card | cash | farmcredit | ebt | null
   const [paymentMethod, setPaymentMethod] = useState(null);
+  const [showDemoModal, setShowDemoModal] = useState(false);
 
   const subtotal = cart.reduce((sum, item) => sum + item.product.price * item.qty, 0);
   const total = subtotal * 1.1;
@@ -64,7 +98,7 @@ export default function App() {
           cart={cart}
           onAddItem={addItem}
           onRemoveItem={removeItem}
-          onCheckout={() => setScreen('checkout')}
+          onCheckout={() => setShowDemoModal(true)}
         />
       )}
 
@@ -83,6 +117,8 @@ export default function App() {
           onDone={resetToScreensaver}
         />
       )}
+
+      {showDemoModal && <DemoModal onClose={() => setShowDemoModal(false)} />}
 
       {/* Payment modals — rendered on top of checkout */}
       {paymentModal === 'card' && (

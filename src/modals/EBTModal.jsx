@@ -33,17 +33,15 @@ export default function EBTModal({ total, onClose, onComplete }) {
         style={{ width: 567, height: '100%' }}
         onClick={e => e.stopPropagation()}
       >
-        {/* Header */}
         <div className="flex items-center justify-between w-full flex-shrink-0">
           <p className="text-[#231F20] text-[20px] font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>EBT</p>
           <div className="flex items-center gap-6">
-            <button className="text-[#6DBE4B] text-[16px] font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            <button className="text-[#6DBE4B] text-[16px] font-bold hover:text-[#5aaa3d] transition-colors" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               Check Balance
             </button>
             <button
               onClick={onClose}
-              className="w-10 h-10 rounded-full flex items-center justify-center"
-              style={{ background: '#F0F0F0' }}
+              className="w-10 h-10 rounded-full flex items-center justify-center bg-[#F0F0F0] hover:bg-[#E0E0E0] transition-colors"
             >
               <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
                 <path d="M18 6L6 18M6 6l12 12" stroke="#231F20" strokeWidth="2" strokeLinecap="round"/>
@@ -52,7 +50,6 @@ export default function EBTModal({ total, onClose, onComplete }) {
           </div>
         </div>
 
-        {/* Center */}
         <div className="flex flex-col items-center gap-6">
           <div className="relative flex items-center justify-center" style={{ width: 140, height: 140 }}>
             <div className="absolute inset-0 rounded-full" style={{ background: '#FDEDE2' }} />
@@ -85,28 +82,19 @@ export default function EBTModal({ total, onClose, onComplete }) {
           <div className="text-center w-[300px]">
             {state === 'waiting' && (
               <>
-                <p className="text-[#E6803D] text-[20px] font-bold leading-[30px]" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  Ready for Tap or Swipe
-                </p>
-                <p className="text-[#231F20] text-[20px] leading-[30px]" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  on your card reader
-                </p>
+                <p className="text-[#E6803D] text-[20px] font-bold leading-[30px]" style={{ fontFamily: 'Montserrat, sans-serif' }}>Ready for Tap or Swipe</p>
+                <p className="text-[#231F20] text-[20px] leading-[30px]" style={{ fontFamily: 'Montserrat, sans-serif' }}>on your card reader</p>
               </>
             )}
             {state === 'processing' && (
-              <p className="text-[#E6803D] text-[20px] font-bold leading-[30px]" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Processing...
-              </p>
+              <p className="text-[#E6803D] text-[20px] font-bold leading-[30px]" style={{ fontFamily: 'Montserrat, sans-serif' }}>Processing...</p>
             )}
             {state === 'approved' && (
-              <p className="text-[#6DBE4B] text-[20px] font-bold leading-[30px]" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                Approved!
-              </p>
+              <p className="text-[#6DBE4B] text-[20px] font-bold leading-[30px]" style={{ fontFamily: 'Montserrat, sans-serif' }}>Approved!</p>
             )}
           </div>
         </div>
 
-        {/* SNAP logo */}
         <div className="rounded-[6px] overflow-hidden border border-white/80 flex-shrink-0"
           style={{ width: 50, height: 32, boxShadow: '0 2px 20px rgba(183,183,183,0.08)' }}>
           <img src={SNAP_LOGO} alt="SNAP" className="w-full h-full object-contain" />

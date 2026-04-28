@@ -47,29 +47,24 @@ export default function Checkout({ cart, onSelectPayment, onBack }) {
 
   return (
     <div className="relative w-full h-full flex" style={{ background: '#FAFAFA' }}>
-      {/* iPad status bar */}
       <div className="absolute top-0 left-0 w-full h-6 bg-[#231F20] flex items-center justify-between px-4" style={{ zIndex: 10 }}>
         <span className="text-white text-[12px]">9:41 AM</span>
         <span className="text-white text-[12px]">● ● ●</span>
         <span className="text-white text-[12px]">100% 🔋</span>
       </div>
 
-      {/* Left panel - order summary */}
-      <div className="absolute left-0 top-6 bg-white flex flex-col px-5 py-4 gap-6"
-        style={{ width: 500, bottom: 0 }}>
+      {/* Left panel */}
+      <div className="absolute left-0 top-6 bg-white flex flex-col px-5 py-4 gap-6" style={{ width: 500, bottom: 0 }}>
 
-        {/* Back button */}
         <button
           onClick={onBack}
-          className="w-10 h-10 rounded-[23px] flex items-center justify-center flex-shrink-0 self-start"
-          style={{ background: '#F0F0F0' }}
+          className="w-10 h-10 rounded-[23px] flex items-center justify-center flex-shrink-0 self-start bg-[#F0F0F0] hover:bg-[#E0E0E0] transition-colors"
         >
           <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
             <path d="M15 18l-6-6 6-6" stroke="#231F20" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
 
-        {/* Customer info */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
@@ -84,7 +79,7 @@ export default function Checkout({ cart, onSelectPayment, onBack }) {
               </p>
             </div>
           </div>
-          <div className="w-10 h-10 rounded-[10px] flex items-center justify-center" style={{ background: '#F0F0F0' }}>
+          <div className="w-10 h-10 rounded-[10px] flex items-center justify-center bg-[#F0F0F0] hover:bg-[#E0E0E0] transition-colors cursor-pointer">
             <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
               <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="#231F20" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="#231F20" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -92,7 +87,6 @@ export default function Checkout({ cart, onSelectPayment, onBack }) {
           </div>
         </div>
 
-        {/* Line items */}
         <div className="flex flex-col flex-1 overflow-y-auto">
           {cart.map(({ product, qty }) => (
             <div key={product.id} className="flex items-center justify-between py-4 border-b border-[#F0F0F0]">
@@ -113,7 +107,6 @@ export default function Checkout({ cart, onSelectPayment, onBack }) {
           ))}
         </div>
 
-        {/* Totals */}
         <div className="flex-shrink-0">
           <div className="rounded-[12px] p-3 flex flex-col gap-3" style={{ background: '#F8F8F8' }}>
             <div className="flex justify-between">
@@ -132,11 +125,8 @@ export default function Checkout({ cart, onSelectPayment, onBack }) {
         </div>
       </div>
 
-      {/* Right panel - payment options */}
-      <div className="absolute right-0 top-6 bottom-0 flex flex-col items-center justify-center gap-8 px-8"
-        style={{ left: 500 }}>
-
-        {/* Total due */}
+      {/* Right panel */}
+      <div className="absolute right-0 top-6 bottom-0 flex flex-col items-center justify-center gap-8 px-8" style={{ left: 500 }}>
         <div className="flex flex-col items-center gap-2">
           <p className="text-[#606060] text-[16px] leading-[30px]" style={{ fontFamily: 'Montserrat, sans-serif' }}>Total Due</p>
           <p className="text-[#231F20] text-[50px] font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
@@ -144,25 +134,17 @@ export default function Checkout({ cart, onSelectPayment, onBack }) {
           </p>
         </div>
 
-        {/* How to pay */}
         <p className="text-[#231F20] text-[24px] font-semibold text-center" style={{ fontFamily: 'Montserrat, sans-serif' }}>
           How would you like to pay?
         </p>
 
-        {/* Payment grid */}
         <div className="grid grid-cols-2 gap-4">
           {PAYMENT_OPTIONS.map(option => (
             <button
               key={option.id}
               onClick={() => onSelectPayment(option.id)}
-              className="flex flex-col items-center gap-3 p-3 rounded-[14px] cursor-pointer active:scale-95 transition-transform"
-              style={{
-                width: 163,
-                height: 136,
-                background: 'white',
-                border: '3px solid #EAEAEA',
-                justifyContent: 'center',
-              }}
+              className="flex flex-col items-center gap-3 p-3 rounded-[14px] cursor-pointer active:scale-95 transition-all bg-white border-[3px] border-[#EAEAEA] hover:border-[#6DBE4B] hover:shadow-md"
+              style={{ width: 163, height: 136, justifyContent: 'center' }}
             >
               <PaymentIcon type={option.icon} bg={option.bg} />
               <div className="flex flex-col items-center gap-0.5">

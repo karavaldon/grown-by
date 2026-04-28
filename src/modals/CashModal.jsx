@@ -38,15 +38,12 @@ export default function CashModal({ total, onClose, onComplete }) {
         style={{ width: 567, height: '100%' }}
         onClick={e => e.stopPropagation()}
       >
-        {/* Top section */}
         <div className="flex flex-col gap-8">
-          {/* Header */}
           <div className="flex items-center justify-between">
             <p className="text-[#231F20] text-[20px] font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>Cash</p>
             <button
               onClick={onClose}
-              className="w-10 h-10 rounded-full flex items-center justify-center"
-              style={{ background: '#F0F0F0' }}
+              className="w-10 h-10 rounded-full flex items-center justify-center bg-[#F0F0F0] hover:bg-[#E0E0E0] transition-colors"
             >
               <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
                 <path d="M18 6L6 18M6 6l12 12" stroke="#231F20" strokeWidth="2" strokeLinecap="round"/>
@@ -54,7 +51,6 @@ export default function CashModal({ total, onClose, onComplete }) {
             </button>
           </div>
 
-          {/* Tender field */}
           <div className="flex flex-col gap-2">
             <p className="text-black text-[16px] font-semibold" style={{ fontFamily: 'Montserrat, sans-serif' }}>Tender</p>
             <div className="border-4 border-[#D3EBC9] rounded-[10px]">
@@ -63,21 +59,18 @@ export default function CashModal({ total, onClose, onComplete }) {
                   <rect x="2" y="6" width="20" height="12" rx="2" stroke="#231F20" strokeWidth="2"/>
                   <path d="M2 10h20" stroke="#231F20" strokeWidth="2"/>
                 </svg>
-                <span className="text-[#231F20] text-[16px] flex-1" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  {tender}
-                </span>
+                <span className="text-[#231F20] text-[16px] flex-1" style={{ fontFamily: 'Montserrat, sans-serif' }}>{tender}</span>
                 <span className="w-0.5 h-6 bg-[#231F20] animate-pulse" />
               </div>
             </div>
           </div>
 
-          {/* Quick amounts */}
           <div className="grid grid-cols-4 gap-4">
             {quickAmounts.map(amt => (
               <button
                 key={amt}
                 onClick={() => setTender(parseFloat(amt).toFixed(2))}
-                className="h-[56px] rounded-[12px] flex items-center justify-center text-[#231F20] text-[16px] transition-colors"
+                className="h-[56px] rounded-[12px] flex items-center justify-center text-[#231F20] text-[16px] transition-all hover:bg-[#D3EBC9] hover:border-[#6DBE4B]"
                 style={{
                   background: tender === parseFloat(amt).toFixed(2) ? '#EDF7E8' : '#F8F8F8',
                   border: '1px solid #E9E9E9',
@@ -90,7 +83,6 @@ export default function CashModal({ total, onClose, onComplete }) {
           </div>
         </div>
 
-        {/* Numpad */}
         <div className="flex flex-col gap-4">
           {[['1','2','3'],['4','5','6'],['7','8','9'],['.','0','del']].map((row, ri) => (
             <div key={ri} className="grid grid-cols-3 gap-4">
@@ -98,7 +90,7 @@ export default function CashModal({ total, onClose, onComplete }) {
                 <button
                   key={k}
                   onClick={() => handleKey(k)}
-                  className="h-[56px] rounded-[12px] flex items-center justify-center transition-colors"
+                  className="h-[56px] rounded-[12px] flex items-center justify-center transition-all hover:bg-[#E8E8E8]"
                   style={{
                     border: '1px solid #E9E9E9',
                     background: k === '0' ? '#EDF7E8' : k === 'del' ? '#F8F8F8' : 'transparent',
@@ -120,14 +112,12 @@ export default function CashModal({ total, onClose, onComplete }) {
           ))}
         </div>
 
-        {/* Bottom: collect + change */}
         <div className="flex flex-col items-center gap-6">
           <button
             onClick={() => canCollect && onComplete('cash')}
             disabled={!canCollect}
-            className="w-[300px] h-[52px] rounded-[10px] text-white text-[16px] font-bold transition-opacity"
+            className="w-[300px] h-[52px] rounded-[10px] text-white text-[16px] font-bold transition-all bg-[#6DBE4B] hover:bg-[#5aaa3d]"
             style={{
-              background: '#6DBE4B',
               opacity: canCollect ? 1 : 0.5,
               fontFamily: 'Montserrat, sans-serif',
               cursor: canCollect ? 'pointer' : 'default',
