@@ -20,12 +20,14 @@ body {
   width: 1134px;
   height: 744px;
   overflow: hidden;
-  position: absolute;
-  left: calc(50vw - 567px);
-  top: calc(50vh - 372px);
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -567px;
+  margin-top: -372px;
   border-radius: 16px;
   box-shadow: 0 0 0 8px #231F20, 0 30px 80px 20px rgba(109, 190, 75, 0.22);
-  transform: scale(0.6702);
+  transform: scale(var(--app-scale, 0.6702));
   transform-origin: center center;
 }
 

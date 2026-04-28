@@ -246,10 +246,10 @@ function CartPanel({ cart, onAddItem, onRemoveItem, onCheckout, recentlyAddedId,
   }
 
   return (
-    <div className="absolute right-0 bottom-0 bg-white flex flex-col items-center justify-between px-4 py-3"
+    <div className="absolute right-0 bottom-0 bg-white flex flex-col px-4 py-3"
       style={{ width: 290, height: 744, top: 0, boxShadow: '-4px 0 10px rgba(0,0,0,0.05)' }}>
 
-      <div className="flex gap-3 items-center pb-2 rounded-[6px] w-full">
+      <div className="flex gap-3 items-center pb-2 rounded-[6px] w-full flex-shrink-0">
         <div className="relative w-10 h-10 flex-shrink-0">
           <img src="/bagimage.jpg" alt="Your bag" className="w-full h-full object-contain" />
         </div>
@@ -258,12 +258,14 @@ function CartPanel({ cart, onAddItem, onRemoveItem, onCheckout, recentlyAddedId,
           <p className="text-[#231F20] text-[14px]" style={{ fontFamily: 'Montserrat, sans-serif' }}>{itemCount} item{itemCount !== 1 ? 's' : ''}</p>
         </div>
       </div>
-      <div style={{ height: 4, background: '#F7F7F7', marginLeft: -16, marginRight: -16, width: 'calc(100% + 32px)' }} />
+      <div className="flex-shrink-0" style={{ height: 4, background: '#F7F7F7', marginLeft: -16, marginRight: -16, width: 'calc(100% + 32px)' }} />
 
       {cart.length === 0 ? (
-        <p className="text-[#ABABAB] text-[14px] text-center w-[180px] leading-[22px]" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-          👆 Tap an item to add it to your bag
-        </p>
+        <div className="flex-1 flex items-center justify-center">
+          <p className="text-[#ABABAB] text-[14px] text-center w-[180px] leading-[22px]" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            👆 Tap an item to add it to your bag
+          </p>
+        </div>
       ) : (
         <div className="flex-1 w-full overflow-y-auto space-y-0">
           {cart.map((item) => {
@@ -335,7 +337,7 @@ function CartPanel({ cart, onAddItem, onRemoveItem, onCheckout, recentlyAddedId,
         </div>
       )}
 
-      <div className="flex flex-col gap-4 items-center w-full pt-2">
+      <div className="flex flex-col gap-4 items-center w-full pt-2 flex-shrink-0">
         <div className="w-full rounded-[10px] overflow-hidden" style={{ background: '#F8F8F8' }}>
           <div className="p-3 flex flex-col gap-3">
             <div className="flex justify-between">
