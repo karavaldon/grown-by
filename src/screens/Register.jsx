@@ -445,7 +445,7 @@ export default function Register({ cart, onAddItem, onRemoveItem, onCheckout }) 
                     ? 'border-[#6DBE4B]'
                     : 'border-[#D9D9D9] hover:border-[#AAAAAA]'
                 }`}
-                style={{ boxShadow: searchFocused ? 'none' : '0 6px 6px rgba(35,31,32,0.05)' }}
+                style={{ boxShadow: 'none' }}
               >
                 <div className="flex gap-3 items-center flex-1 min-w-0">
                   <svg width="20" height="20" fill="none" viewBox="0 0 24 24" className="flex-shrink-0">
