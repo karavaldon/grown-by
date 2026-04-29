@@ -58,9 +58,9 @@ async function playCrumpleSound() {
   } catch (_) {}
 }
 
-const FARMER_PHOTO = '/farmer-photo.jpg';
+const FARMER_PHOTO = '/rachelFarmer.jpg';
 
-function ProductNote({ product }) {
+function ProductNote({ product, isCollapsing, showClose, onClose }) {
   return (
     <>
       <div
@@ -73,7 +73,7 @@ function ProductNote({ product }) {
         }}
       />
       <div
-        className="absolute bg-white rounded-[12px] flex items-center gap-4 px-4 py-3 product-note-appear"
+        className={`absolute bg-white rounded-[12px] flex items-center gap-4 px-4 py-3 ${isCollapsing ? 'product-note-collapse' : 'product-note-appear'}`}
         style={{
           bottom: 30,
           left: 0,
@@ -83,11 +83,13 @@ function ProductNote({ product }) {
           border: '3px solid #6DBE4B',
           boxShadow: '0px 4px 11px rgba(111,111,111,0.4)',
           zIndex: 20,
-          pointerEvents: 'none',
+          pointerEvents: showClose ? 'auto' : 'none',
         }}
       >
-        <img src={FARMER_PHOTO} alt="Rachel" className="w-[51px] h-[51px] rounded-full object-cover flex-shrink-0" />
-        <div className="flex flex-col gap-1.5">
+        <div className="w-[51px] h-[51px] rounded-full overflow-hidden flex-shrink-0" style={{ border: 'none', outline: 'none', boxShadow: 'none' }}>
+          <img src={FARMER_PHOTO} alt="Rachel" className="w-full h-full object-cover scale-[3]" style={{ border: 'none', outline: 'none', objectPosition: 'calc(50% + 2px) center' }} />
+        </div>
+        <div className="flex flex-col gap-1.5 flex-1">
           <p className="text-[#231F20] text-[14px] font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
             👋 Rachel from Small Yard Farm says:
           </p>
@@ -95,8 +97,48 @@ function ProductNote({ product }) {
             "{product.note}"
           </p>
         </div>
+        {showClose && (
+          <button
+            onClick={onClose}
+            className="w-8 h-8 rounded-full flex items-center justify-center bg-[#F0F0F0] hover:bg-[#E0E0E0] transition-colors flex-shrink-0 cursor-pointer"
+          >
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12" stroke="#231F20" strokeWidth="2.5" strokeLinecap="round"/>
+            </svg>
+          </button>
+        )}
       </div>
     </>
+  );
+}
+
+function PinnedAvatar({ onClick }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="absolute avatar-pin-appear cursor-pointer"
+      style={{ left: 32, bottom: 32, zIndex: 25, background: 'none', border: 'none', padding: 0 }}
+    >
+      <div
+        className="w-[64px] h-[64px] rounded-full overflow-hidden"
+        style={{
+          border: '2px solid #6DBE4B',
+          boxShadow: hovered ? '0 6px 20px rgba(109,190,75,0.55)' : '0 2px 8px rgba(0,0,0,0.1)',
+          transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
+          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+        }}
+      >
+        <img
+          src={FARMER_PHOTO}
+          alt="Rachel"
+          className="w-full h-full object-cover scale-[3]"
+          style={{ objectPosition: 'calc(50% + 2px) center' }}
+        />
+      </div>
+    </button>
   );
 }
 
@@ -382,9 +424,12 @@ export default function Register({ cart, onAddItem, onRemoveItem, onCheckout }) 
   const [recentlyAddedRotation, setRecentlyAddedRotation] = useState('2deg');
   const [badges, setBadges] = useState({});
   const [activeNote, setActiveNote] = useState(null);
+  const [notePhase, setNotePhase] = useState(null); // null | 'expanded' | 'expanded-click' | 'collapsing' | 'pinned'
+  const [noteKey, setNoteKey] = useState(0);
   const containerRef = useRef(null);
   const badgeTimers = useRef({});
   const noteTimer = useRef(null);
+  const collapseTimer = useRef(null);
 
   const filtered = PRODUCTS.filter(p => {
     const matchCat = activeCategory === 'All' || p.category === activeCategory;
@@ -394,12 +439,28 @@ export default function Register({ cart, onAddItem, onRemoveItem, onCheckout }) 
 
   const getQty = (id) => cart.find(i => i.product.id === id)?.qty || 0;
 
+  function startCollapse() {
+    clearTimeout(noteTimer.current);
+    setNotePhase('collapsing');
+    collapseTimer.current = setTimeout(() => setNotePhase('pinned'), 350);
+  }
+
+  function expandFromPin() {
+    clearTimeout(noteTimer.current);
+    clearTimeout(collapseTimer.current);
+    setNoteKey(k => k + 1);
+    setNotePhase('expanded-click');
+  }
+
   function handleProductClick(product, e) {
     playScanBeep();
     if (product.note) {
       clearTimeout(noteTimer.current);
+      clearTimeout(collapseTimer.current);
       setActiveNote(product);
-      noteTimer.current = setTimeout(() => setActiveNote(null), 4000);
+      setNoteKey(k => k + 1);
+      setNotePhase('expanded');
+      noteTimer.current = setTimeout(startCollapse, 4000);
     }
     const currentQty = getQty(product.id);
     const containerRect = containerRef.current.getBoundingClientRect();
@@ -513,8 +574,20 @@ export default function Register({ cart, onAddItem, onRemoveItem, onCheckout }) 
           </div>
         )}
 
-        {activeNote && <ProductNote key={activeNote.id} product={activeNote} />}
+        {activeNote && ['expanded', 'expanded-click', 'collapsing'].includes(notePhase) && (
+          <ProductNote
+            key={noteKey}
+            product={activeNote}
+            isCollapsing={notePhase === 'collapsing'}
+            showClose={notePhase === 'expanded-click'}
+            onClose={startCollapse}
+          />
+        )}
       </div>
+
+      {activeNote && ['pinned', 'collapsing'].includes(notePhase) && (
+        <PinnedAvatar key={noteKey} onClick={expandFromPin} />
+      )}
 
       {flyItems.map(fly => (
         <FlyingThumbnail key={fly.id} fly={fly} />
