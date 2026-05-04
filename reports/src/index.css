@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #e5e5e5;
+  font-family: 'Montserrat', sans-serif;
+}
+
+p { margin: 0; }
+
+#root {
+  width: 1134px;
+  height: 744px;
+  overflow: hidden;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -567px;
+  margin-top: -372px;
+  border-radius: 20px;
+  /* iPad bezel: inner dark ring + outer subtle ring + drop shadow */
+  box-shadow:
+    0 0 0 12px #1C1C1E,
+    0 0 0 13px #3a3a3c,
+    0 40px 100px rgba(0, 0, 0, 0.55),
+    0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: scale(var(--scale, 0.85));
+  transform-origin: center center;
+  font-family: 'Montserrat', sans-serif;
+  background: #fafafa;
+}
+
+button {
+  font-family: 'Montserrat', sans-serif;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.dropdown-enter {
+  animation: dropIn 0.15s ease-out;
+}
+
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.expand-enter {
+  animation: expandIn 0.2s ease-out;
+}
+
+@keyframes expandIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
