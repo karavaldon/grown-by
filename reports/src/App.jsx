@@ -522,7 +522,7 @@ function CustomersLocationRows({ locations }) {
             <span style={{ fontSize: 16, color: 'black', whiteSpace: 'nowrap' }}>customers {loc.label}</span>
           </div>
           <span style={{ fontSize: 16, color: '#606060', whiteSpace: 'nowrap' }}>
-            {fmtNum(loc.newCust)} New and {fmtNum(loc.returning)} returning
+            {fmtNum(loc.newCust)} new / {fmtNum(loc.returning)} returning
           </span>
         </div>
       ))}
